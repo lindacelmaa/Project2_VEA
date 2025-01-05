@@ -7,9 +7,9 @@
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+			rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+			crossorigin="anonymous">
 		<style>
 			.bg-primary {
 				background-color: #5B0000 !important;
@@ -20,10 +20,23 @@
 		</style>
 	</head>
 	<body>
-		<nav class="navbar bg-primary mb-3" data-bs-theme="dark">
-			<header class="container">
-				<a class="navbar-brand" href="#">Project 2 - {{ $title }}</a>
-			</header>
+		<nav class="navbar navbar-expand-md bg-primary mb-3" data-bs-theme="dark">
+			<div class="container">
+				<span class="navbar-brand mb-0 h1">Project 2</span>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/leaders">Leaders</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</nav>
 		<main class="container">
 			<div class="row">
@@ -41,5 +54,6 @@
 				</div>
 			</div>
 		</footer>
+		<script src="/js/admin.js"></script>
 	</body>
 </html>
