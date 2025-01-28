@@ -28,12 +28,21 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" href="/">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/leaders">Leaders</a>
-						</li>
+						@if(Auth::check())
+							<li class="nav-item">
+								<a class="nav-link" href="/">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/leaders">Leaders</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/logout">Log out</a>
+							</li>
+						@else
+							<li class="nav-item">
+								<a class="nav-link" href="/login">Authenticate</a>
+							</li>
+						@endif
 					</ul>
 				</div>
 			</div>
