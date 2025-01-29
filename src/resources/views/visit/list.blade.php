@@ -28,11 +28,11 @@
 					<a
 						href="/visits/update/{{ $visit->id }}"
 						class="btn btn-outline-primary btn-sm"
-					>Edit</a> /
+					>Edit</a>
 					<form
-						method="post"
 						action="/visits/delete/{{ $visit->id }}"
-						class="d-inline deletion-form"
+						method="post"
+						class="deletionform d-inline"
 					>
 						@csrf
 						<button

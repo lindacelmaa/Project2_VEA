@@ -32,10 +32,10 @@ Route::get('/visits/create', [VisitController::class, 'create']);
 
 Route::post('/visits/put', [VisitController::class, 'put']);
 
-Route::get('/visits/update/{Visit}', [VisitController::class, 'update']);
+Route::get('/visits/update/{visit}', [VisitController::class, 'update']);
 
-Route::post('/visits/patch/{Visit}', [VisitController::class, 'patch']);
+Route::post('/visits/patch/{visit}', [VisitController::class, 'patch']);
 
-Route::post('/visits/delete/{Visit}', [VisitController::class, 'delete']);
+Route::post('/visits/delete/{visit}', [VisitController::class, 'delete']);
 
 
