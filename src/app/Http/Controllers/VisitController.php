@@ -8,6 +8,8 @@ use App\Models\Visit;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Http\Requests\VisitRequest;
+
 
 class VisitController extends Controller implements HasMiddleware
 {
@@ -43,79 +45,12 @@ class VisitController extends Controller implements HasMiddleware
 			]
 		);
 	}
-	// create new Visit entry
-	public function put(Request $request): RedirectResponse
-	{
-		$validatedData = $request->validate([
-			'leader_id' => 'required',
-			'destination_country' => 'required|min:3|max:256',
-			'event_name' => 'required|min:3|max:256',
-			'start_date' => 'required|date',
-			'end_date' => 'required|date|after_or_equal:start_date',
-			'description' => 'nullable|string',
-			'cost' => 'nullable|numeric',
-			'image' => 'nullable|image',
-			'display' => 'nullable|boolean',
-		]);
-		$visit = new Visit();
-		$visit->leader_id = $validatedData['leader_id'];
-		$visit->destination_country = $validatedData['destination_country'];
-		$visit->event_name = $validatedData['event_name'];
-		$visit->start_date = $validatedData['start_date'];
-		$visit->end_date = $validatedData['end_date'];
-		$visit->description = $validatedData['description'];
-		$visit->cost = $validatedData['cost'];
-		$visit->display = (bool) ($validatedData['display'] ?? false);
-		
-		if ($request->hasFile('image')) {
-		// here you can add code that deletes old image file when new one is uploaded
-			$uploadedFile = $request->file('image');
-			$extension = $uploadedFile->clientExtension();
-			$name = uniqid();
-			$visit->image = $uploadedFile->storePubliclyAs(
-				'/',
-				$name . '.' . $extension,
-				'uploads'
-			);
-		}
-
-		$visit->save();
-		return redirect('/visits');
-	}
-	public function update(Visit $visit): View
-	{
-		$leaders = Leader::orderBy('name', 'asc')->get();
-		return view(
-			'visit.form',
-			[
-				'title' => 'Edit visit',
-				'visit' => $visit,
-				'leaders' => $leaders,
-			]
-		);
-	}
 	
-	public function patch(Visit $visit, Request $request): RedirectResponse
+	private function saveVisitData(Visit $visit, VisitRequest $request): void
 	{
-		$validatedData = $request->validate([
-			'leader_id' => 'required',
-			'destination_country' => 'required|min:3|max:256',
-			'event_name' => 'required|min:3|max:256',
-			'start_date' => 'required|date',
-			'end_date' => 'required|date|after_or_equal:start_date',
-			'description' => 'nullable|string',
-			'cost' => 'nullable|numeric',
-			'image' => 'nullable|image',
-			'display' => 'nullable|boolean',
-		]);
+		$validatedData = $request->validated();
 		
-		$visit->leader_id = $validatedData['leader_id'];
-		$visit->destination_country = $validatedData['destination_country'];
-		$visit->event_name = $validatedData['event_name'];
-		$visit->start_date = $validatedData['start_date'];
-		$visit->end_date = $validatedData['end_date'];
-		$visit->description = $validatedData['description'];
-		$visit->cost = $validatedData['cost'];
+		$visit->fill($validatedData);
 		$visit->display = (bool) ($validatedData['display'] ?? false);
 		
 		if ($request->hasFile('image')) {
@@ -131,6 +66,30 @@ class VisitController extends Controller implements HasMiddleware
 		}
 
 		$visit->save();
+	}
+	// create new Visit entry
+	public function put(VisitRequest $request): RedirectResponse
+	{
+		$visit = new Visit();
+		$this->saveVisitData($visit, $request);
+		return redirect('/visits');
+	}
+	public function update(Visit $visit): View
+	{
+		$leaders = Leader::orderBy('name', 'asc')->get();
+		return view(
+			'visit.form',
+			[
+				'title' => 'Edit visit',
+				'visit' => $visit,
+				'leaders' => $leaders,
+			]
+		);
+	}
+	
+	public function patch(Visit $visit, VisitRequest $request): RedirectResponse
+	{
+		$this->saveVisitData($visit, $request);
 		return redirect('/visits/update/' . $visit->id);
 
 	}
