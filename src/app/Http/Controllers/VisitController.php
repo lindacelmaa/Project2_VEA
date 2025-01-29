@@ -54,6 +54,7 @@ class VisitController extends Controller implements HasMiddleware
 			'end_date' => 'required|date|after_or_equal:start_date',
 			'description' => 'nullable|string',
 			'cost' => 'nullable|numeric',
+			'image' => 'nullable|image',
 			'display' => 'nullable|boolean',
 		]);
 		$visit = new Visit();
@@ -65,6 +66,19 @@ class VisitController extends Controller implements HasMiddleware
 		$visit->description = $validatedData['description'];
 		$visit->cost = $validatedData['cost'];
 		$visit->display = (bool) ($validatedData['display'] ?? false);
+		
+		if ($request->hasFile('image')) {
+		// here you can add code that deletes old image file when new one is uploaded
+			$uploadedFile = $request->file('image');
+			$extension = $uploadedFile->clientExtension();
+			$name = uniqid();
+			$visit->image = $uploadedFile->storePubliclyAs(
+				'/',
+				$name . '.' . $extension,
+				'uploads'
+			);
+		}
+
 		$visit->save();
 		return redirect('/visits');
 	}
@@ -91,6 +105,7 @@ class VisitController extends Controller implements HasMiddleware
 			'end_date' => 'required|date|after_or_equal:start_date',
 			'description' => 'nullable|string',
 			'cost' => 'nullable|numeric',
+			'image' => 'nullable|image',
 			'display' => 'nullable|boolean',
 		]);
 		
@@ -102,6 +117,19 @@ class VisitController extends Controller implements HasMiddleware
 		$visit->description = $validatedData['description'];
 		$visit->cost = $validatedData['cost'];
 		$visit->display = (bool) ($validatedData['display'] ?? false);
+		
+		if ($request->hasFile('image')) {
+			// here you can add code that deletes old image file when new one is uploaded
+			$uploadedFile = $request->file('image');
+			$extension = $uploadedFile->clientExtension();
+			$name = uniqid();
+			$visit->image = $uploadedFile->storePubliclyAs(
+				'images',
+				$name . '.' . $extension,
+				'uploads'
+			);
+		}
+
 		$visit->save();
 		return redirect('/visits/update/' . $visit->id);
 
@@ -109,6 +137,9 @@ class VisitController extends Controller implements HasMiddleware
 	// delete Visit
 	public function delete(Visit $visit): RedirectResponse
 	{
+		if ($visit->image) {
+			unlink(getcwd() . '/images/' . $visit->image);
+		}
 		// delete the image file too
 		$visit->delete();
 		return redirect('/visits');

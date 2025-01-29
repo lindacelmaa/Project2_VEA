@@ -7,7 +7,7 @@
         <div class="alert alert-danger">Please fix the validation errors!</div>
     @endif
 
-    <form method="post" action="{{ $visit->exists ? '/visits/patch/' . $visit->id : '/visits/put' }}">
+    <form method="post" action="{{ $visit->exists ? '/visits/patch/' . $visit->id : '/visits/put' }}" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="destination_country" class="form-label">Destination Country</label>
@@ -104,6 +104,27 @@
                 <p class="invalid-feedback">{{ $errors->first('cost') }}</p>
             @enderror
         </div>
+		
+		<div class="mb-3">
+			<label for="visit-image" class="form-label">Image</label>
+			@if ($visit->image)
+				<img
+					src="{{ asset('images/' . $visit->image) }}"
+					class="img-fluid img-thumbnail d-block mb-2"
+					alt="{{ $visit->name }}"
+				>
+			@endif
+			<input
+				type="file" accept="image/png, image/webp, image/jpeg"
+				id="visit-image"
+				name="image"
+				class="form-control @error('image') is-invalid @enderror"
+			>
+			@error('image')
+				<p class="invalid-feedback">{{ $errors->first('image') }}</p>
+			@enderror
+		</div>
+
 
         <div class="mb-3">
             <div class="form-check">

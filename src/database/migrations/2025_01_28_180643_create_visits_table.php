@@ -22,6 +22,7 @@ return new class extends Migration
         $table->decimal('cost', 10, 2)->nullable(); 
         $table->timestamps();
 		$table->boolean('display');
+		$table->string('image', 256)->nullable();
         $table->foreign('leader_id')->references('id')->on('leaders');
     });
     }
