@@ -8,6 +8,7 @@
 				<th>ID</th>
 				<th>Visit name</th>
 				<th>Leader</th>
+				<th>Transport</th>
 				<th>Start date</th>
 				<th>End date</th>
 				<th>Cost</th>
@@ -20,6 +21,7 @@
 				<td>{{ $visit->id }}</td>
 				<td>{{ $visit->event_name }}</td>
 				<td>{{ $visit->leader->name }}</td>
+				<td>{{ $visit->transportOption->name }}</td>
 				<td>{{ $visit->start_date}}</td>
 				<td>{{ $visit->end_date}}</td>
 				<td>&euro; {{ number_format($visit->cost, 2, '.') }}</td>

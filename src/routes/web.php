@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VisitController;
+use App\Http\Controllers\TransportOptionController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -37,5 +38,17 @@ Route::get('/visits/update/{visit}', [VisitController::class, 'update']);
 Route::post('/visits/patch/{visit}', [VisitController::class, 'patch']);
 
 Route::post('/visits/delete/{visit}', [VisitController::class, 'delete']);
+
+Route::get('/transportOptions', [TransportOptionController::class, 'list']);
+
+Route::get('/transportOptions/create', [TransportOptionController::class, 'create']);
+
+Route::post('/transportOptions/put', [TransportOptionController::class, 'put']);
+
+Route::get('/transportOptions/update/{transportOption}', [TransportOptionController::class, 'update']);
+
+Route::post('/transportOptions/patch/{transportOption}', [TransportOptionController::class, 'patch']);
+
+Route::post('/transportOptions/delete/{transportOption}', [TransportOptionController::class, 'delete']);
 
 

@@ -23,6 +23,7 @@ class VisitRequest extends FormRequest
     {
         return [
             'leader_id' => 'required',
+			'transport_id' => 'required',
 			'destination_country' => 'required|min:3|max:256',
 			'event_name' => 'required|min:3|max:256',
 			'start_date' => 'required|date',
@@ -50,6 +51,7 @@ class VisitRequest extends FormRequest
 	{
 		return [
 			'leader_id' => 'vadītājs',
+			'transport_id' => 'transports',
 			'destination_country' => 'Galamērķis',
 			'event_name' => 'pasākuma nosaukums',
 			'start_date' => 'sākuma datums',

@@ -21,6 +21,7 @@
                 <p class="invalid-feedback">{{ $errors->first('destination_country') }}</p>
             @enderror
         </div>
+		
 
         <div class="mb-3">
             <label for="event_name" class="form-label">Event Name</label>
@@ -51,6 +52,25 @@
             </select>
             @error('leader_id')
                 <p class="invalid-feedback">{{ $errors->first('leader_id') }}</p>
+            @enderror
+        </div>
+		
+		<div class="mb-3">
+            <label for="transport_id" class="form-label">Transport</label>
+            <select 
+                id="transport_id" 
+                name="transport_id" 
+                class="form-select @error('transport_id') is-invalid @enderror">
+                <option value="">Choose the transport</option>
+                @foreach($transportOptions as $option)
+                    <option value="{{ $option->id }}" 
+                        @if ($option->id == old('transport_id', $visit->transport_id ?? false)) selected @endif>
+                        {{ $option->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('transport_id')
+                <p class="invalid-feedback">{{ $errors->first('transport_id') }}</p>
             @enderror
         </div>
 

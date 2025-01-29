@@ -9,6 +9,7 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Http\Requests\VisitRequest;
+use App\Models\TransportOption;
 
 
 class VisitController extends Controller implements HasMiddleware
@@ -36,14 +37,17 @@ class VisitController extends Controller implements HasMiddleware
 	public function create(): View
 	{
 		$leaders = Leader::orderBy('name', 'asc')->get();
+		$transportOptions = TransportOption::orderBy('name', 'asc')->get();
 		return view(
 			'visit.form',
 			[
 				'title' => 'Add new visit',
 				'visit' => new Visit(),
 				'leaders' => $leaders,
+				'transportOptions' => $transportOptions
 			]
 		);
+		
 	}
 	
 	private function saveVisitData(Visit $visit, VisitRequest $request): void
@@ -77,12 +81,14 @@ class VisitController extends Controller implements HasMiddleware
 	public function update(Visit $visit): View
 	{
 		$leaders = Leader::orderBy('name', 'asc')->get();
+		$transportOptions = TransportOption::orderBy('name', 'asc')->get();
 		return view(
 			'visit.form',
 			[
 				'title' => 'Edit visit',
 				'visit' => $visit,
 				'leaders' => $leaders,
+				'transportOptions' => $transportOptions
 			]
 		);
 	}

@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+		if (!Schema::hasTable('visits')) {
         Schema::create('visits', function (Blueprint $table) {
         $table->id();
         $table->foreignId('leader_id');
@@ -23,9 +24,12 @@ return new class extends Migration
         $table->timestamps();
 		$table->boolean('display');
 		$table->string('image', 256)->nullable();
+		$table->unsignedBigInteger('transport_id')->nullable();
+
         $table->foreign('leader_id')->references('id')->on('leaders');
     });
     }
+	}
 
     /**
      * Reverse the migrations.

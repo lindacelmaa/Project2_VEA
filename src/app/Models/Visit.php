@@ -27,4 +27,8 @@ class Visit extends Model
 	{
 		return $this->belongsTo(Leader::class);
 	}
+	public function transportOption(): BelongsTo
+	{
+		return $this->belongsTo(TransportOption::class, 'transport_id');
+	}
 }
