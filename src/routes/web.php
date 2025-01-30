@@ -6,6 +6,8 @@ use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\VisitController;
 use App\Http\Controllers\TransportOptionController;
+use App\Http\Controllers\DataController;
+
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -51,4 +53,8 @@ Route::post('/transportOptions/patch/{transportOption}', [TransportOptionControl
 
 Route::post('/transportOptions/delete/{transportOption}', [TransportOptionController::class, 'delete']);
 
+Route::get('/data/get-top-visits', [DataController::class, 'getTopVisits']);
 
+Route::get('/data/get-visit/{visit}', [DataController::class, 'getVisit']);
+
+Route::get('/data/get-related-visits/{visit}', [DataController::class, 'getRelatedVisits']);

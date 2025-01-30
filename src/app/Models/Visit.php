@@ -32,4 +32,20 @@ class Visit extends Model
 	{
 		return $this->belongsTo(TransportOption::class, 'transport_id');
 	}
+	
+	public function jsonSerialize(): mixed
+	{
+		return [
+			'id' => intval($this->id),
+			'leader' => $this->leader->name,
+			'destination_country' => $this->destination_country,
+			'event_name' => $this->event_name,
+			'start_date' => $this->start_date,
+			'end_date' => $this->end_date,
+			'description' => $this->description,
+			'cost' => number_format($this->cost, 2),
+			'transport' => ($this->transportOption ? $this->transportOption->name : ''),
+			'image' => asset('images/' . $this->image),
+		];
+	}
 }
