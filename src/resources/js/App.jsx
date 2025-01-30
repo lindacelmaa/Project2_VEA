@@ -1,92 +1,3 @@
-/*const topVisits = [
-	{
-    "id": 4,
-    "leader": "King Charles II (previous Prince Charles)",
-    "destination_country": "Lithuania",
-    "event_name": "Elections",
-    "start_date": "1998-03-01",
-    "end_date": "1998-03-04",
-    "description": "Elections",
-    "cost": "1,938.04",
-    "transport": "Train",
-    "image": "http://localhost/images"
-  },
-  {
-    "id": 1,
-    "leader": "King Charles II (previous Prince Charles)",
-    "destination_country": "Albania",
-    "event_name": "School",
-    "start_date": "1998-12-01",
-    "end_date": "1999-01-19",
-    "description": "School",
-    "cost": "100,000.00",
-    "transport": "Plane",
-    "image": "http://localhost/images/images/679ab3505d5ae.jpg"
-  },
-  {
-    "id": 3,
-    "leader": "King Charles II (previous Prince Charles)",
-    "destination_country": "Latvia",
-    "event_name": "Inauguration",
-    "start_date": "1998-12-01",
-    "end_date": "2002-06-02",
-    "description": "Inauguration",
-    "cost": "100,000.00",
-    "transport": "Train",
-    "image": "http://localhost/images/images/679b28f89b011.webp"
-  }
-];
-const selectedVisit = {
-  "id": 3,
-  "leader": "King Charles II (previous Prince Charles)",
-  "destination_country": "Latvia",
-  "event_name": "Inauguration",
-  "start_date": "1998-12-01",
-  "end_date": "2002-06-02",
-  "description": "Inauguration",
-  "cost": "100,000.00",
-  "transport": "Train",
-  "image": "http://localhost/images/images/679b28f89b011.webp"
-
-};
-const relatedVisits = [
-	{
-    "id": 4,
-    "leader": "King Charles II (previous Prince Charles)",
-    "destination_country": "Lithuania",
-    "event_name": "Elections",
-    "start_date": "1998-03-01",
-    "end_date": "1998-03-04",
-    "description": "Elections",
-    "cost": "1,938.04",
-    "transport": "Train",
-    "image": "http://localhost/images"
-  },
-  {
-    "id": 1,
-    "leader": "King Charles II (previous Prince Charles)",
-    "destination_country": "Albania",
-    "event_name": "School",
-    "start_date": "1998-12-01",
-    "end_date": "1999-01-19",
-    "description": "School",
-    "cost": "100,000.00",
-    "transport": "Plane",
-    "image": "http://localhost/images/images/679ab3505d5ae.jpg"
-  },
-  {
-    "id": 3,
-    "leader": "King Charles II (previous Prince Charles)",
-    "destination_country": "Latvia",
-    "event_name": "Inauguration",
-    "start_date": "1998-12-01",
-    "end_date": "2002-06-02",
-    "description": "Inauguration",
-    "cost": "100,000.00",
-    "transport": "Train",
-    "image": "http://localhost/images/images/679b28f89b011.webp"
-  }
-];*/
 
 import { useEffect, useState } from "react";
 import '../css/loader.css';
@@ -138,7 +49,7 @@ function Header() {
 }
 function Footer() {
 	return (
-		<footer className="bg-[#3F0000] text-white mt-3 py-5 px-4">
+		<footer className="bg-[#3F0000] text-white py-5 px-4 mt-auto">
 			<div className="container text-center">
 				&#127757; L. Celma, VeA, 2025
 			</div>
