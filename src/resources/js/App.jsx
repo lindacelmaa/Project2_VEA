@@ -1,4 +1,4 @@
-const topVisits = [
+/*const topVisits = [
 	{
     "id": 4,
     "leader": "King Charles II (previous Prince Charles)",
@@ -86,7 +86,7 @@ const relatedVisits = [
     "transport": "Train",
     "image": "http://localhost/images/images/679b28f89b011.webp"
   }
-];
+];*/
 
 import { useEffect, useState } from "react";
 import '../css/loader.css';
@@ -149,17 +149,25 @@ function Footer() {
 function Homepage({ handleVisitSelection }) {
 	const [topVisits, setTopVisits] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
+
 	
 	useEffect(function () {
 		async function fetchTopVisits() {
 			try {
 				setIsLoading(true);
+				setError(null);
 				const response = await fetch('http://localhost/data/get-top-visits');
+				
+				if (!response.ok) {
+					throw new Error("Error while loading data. Please reload page!");
+				}
+				
 				const data = await response.json();
 				console.log('top visits fetched', data);
 				setTopVisits(data);
 			} catch (error) {
-				//
+				setError(error.message);
 			}  finally {
 				setIsLoading(false);
 			}
@@ -170,7 +178,8 @@ function Homepage({ handleVisitSelection }) {
 	return (
 		<>
 			{isLoading && <Loader />}
-			{!isLoading && (
+			{error && <ErrorMessage msg={error} />}
+			{!isLoading && !error && (
 				topVisits.map((visit, index) => (
 					<TopVisitView
 						visit={visit}
@@ -232,43 +241,75 @@ function VisitPage({ selectedVisitID, handleVisitSelection, handleGoingBack }) {
 }
 
 function SelectedVisitView({ selectedVisitID, handleGoingBack }) {
-  return (
-    <>
-      <div className="rounded-lg flex flex-wrap md:flex-row">
-        <div className="order-2 md:order-1 md:pt-12 md:basis-1/2">
-          <h1 className="text-3xl leading-8 font-light text-neutral-900 mb-2">
-            {selectedVisit.event_name}
-          </h1>
-          <p className="text-xl leading-7 font-light text-neutral-900 mb-2">
-            {selectedVisit.leader}
-          </p>
-          <p className="text-xl leading-7 font-light text-neutral-900 mb-4">
-            {selectedVisit.description}
-          </p>
-          <dl className="mb-4 md:flex md:flex-wrap md:flex-row">
-            <dt className="font-bold md:basis-1/4">Start Date</dt>
-            <dd className="mb-2 md:basis-3/4">{selectedVisit.start_date}</dd>
-            <dt className="font-bold md:basis-1/4">End Date</dt>
-            <dd className="mb-2 md:basis-3/4">{selectedVisit.end_date}</dd>
-            <dt className="font-bold md:basis-1/4">Cost</dt>
-            <dd className="mb-2 md:basis-3/4">€ {selectedVisit.cost}</dd>
-            <dt className="font-bold md:basis-1/4">Transport</dt>
-            <dd className="mb-2 md:basis-3/4">{selectedVisit.transport}</dd>
-          </dl>
-        </div>
-        <div className="order-1 md:order-2 md:pt-12 md:px-12 md:basis-1/2">
-          <img
-            src={selectedVisit.image}
-            alt={selectedVisit.event_name}
-            className="p-1 rounded-md border border-neutral-200 mx-auto"
-          />
-        </div>
-      </div>
-      <div className="mb-12 flex flex-wrap">
-        <GoBackBtn handleGoingBack={handleGoingBack} />
-      </div>
-    </>
-  )
+	const [selectedVisit, setSelectedVisit] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
+	
+	useEffect(() => {
+		async function fetchSelectedVisit() {
+			try {
+				setIsLoading(true);
+				setError(null);
+				const response = await fetch('http://localhost/data/get-visit/' + selectedVisitID);
+        
+				if (!response.ok) {
+					throw new Error("Error while loading visit details. Please try again.");
+				}
+				
+				const data = await response.json();
+				console.log('visit ' + selectedVisitID + ' fetched', data);
+				setSelectedVisit(data);
+			} catch (error) {
+				setError(error.message);
+			} finally {
+				setIsLoading(false);
+			}
+		}
+
+		fetchSelectedVisit();
+	}, [selectedVisitID]);
+	
+	return (
+		<>
+			{isLoading && <Loader />}
+			{error && <ErrorMessage msg={error} />}
+			{!isLoading && !error && selectedVisit && <>
+				<div className="rounded-lg flex flex-wrap md:flex-row">
+					<div className="order-2 md:order-1 md:pt-12 md:basis-1/2">
+						<h1 className="text-3xl leading-8 font-light text-neutral-900 mb-2">
+							{selectedVisit.event_name}
+						</h1>
+						<p className="text-xl leading-7 font-light text-neutral-900 mb-2">
+							{selectedVisit.leader}
+						</p>
+						<p className="text-xl leading-7 font-light text-neutral-900 mb-4">
+							{selectedVisit.description}
+						</p>
+						<dl className="mb-4 md:flex md:flex-wrap md:flex-row">
+							<dt className="font-bold md:basis-1/4">Start Date</dt>
+							<dd className="mb-2 md:basis-3/4">{selectedVisit.start_date}</dd>
+							<dt className="font-bold md:basis-1/4">End Date</dt>
+							<dd className="mb-2 md:basis-3/4">{selectedVisit.end_date}</dd>
+							<dt className="font-bold md:basis-1/4">Cost</dt>
+							<dd className="mb-2 md:basis-3/4">€ {selectedVisit.cost}</dd>
+							<dt className="font-bold md:basis-1/4">Transport</dt>
+							<dd className="mb-2 md:basis-3/4">{selectedVisit.transport}</dd>
+						</dl>
+					</div>
+					<div className="order-1 md:order-2 md:pt-12 md:px-12 md:basis-1/2">
+						<img
+							src={selectedVisit.image}
+							alt={selectedVisit.event_name}
+							className="p-1 rounded-md border border-neutral-200 mx-auto"
+						/>
+					</div>
+				</div>
+				<div className="mb-12 flex flex-wrap">
+					<GoBackBtn handleGoingBack={handleGoingBack} />
+				</div>
+			</>}
+		</>
+	)
 }
 function GoBackBtn({ handleGoingBack }) {
 	return (
@@ -280,22 +321,54 @@ function GoBackBtn({ handleGoingBack }) {
 }
 
 function RelatedVisitSection({ selectedVisitID, handleVisitSelection }) {
+	const [relatedVisits, setRelatedVisits] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
+	
+	useEffect(() => {
+		async function fetchRelatedVisits() {
+			try {
+				setIsLoading(true);
+				setError(null);
+				const response = await fetch('http://localhost/data/get-related-visits/' + selectedVisitID);
+        
+				if (!response.ok) {
+					throw new Error("Error while loading related visits. Please try again.");
+				}
+
+				const data = await response.json();
+				console.log('visit ' + selectedVisitID + ' fetched', data);
+				setRelatedVisits(data);
+			} catch (error) {
+				setError(error.message);
+			} finally {
+				setIsLoading(false);
+			}
+		}
+
+		fetchRelatedVisits();
+	}, [selectedVisitID]);
+	
 	return (
 		<>
-			<div className="flex flex-wrap">
-				<h2 className="text-3xl leading-8 font-light text-neutral-900 mb-4">
-					Similar visits
-				</h2>
-			</div>
-			<div className="flex flex-wrap md:flex-row md:space-x-4 md:flex-nowrap">
-				{relatedVisits.map( visit => (
-					<RelatedVisitView
-						visit={visit}
-						key={visit.id}
-						handleVisitSelection={handleVisitSelection}
-					/>
-				))}
-			</div>
+			{isLoading && <Loader />}
+			{error && <ErrorMessage msg={error} />}
+			{!isLoading && !error && <>
+				<div className="flex flex-wrap">
+					<h2 className="text-3xl leading-8 font-light text-neutral-900 mb-4">
+						Similar visits
+					</h2>
+				</div>
+				<div className="flex flex-wrap md:flex-row md:space-x-4 md:flex-nowrap">
+					{relatedVisits.map( visit => (
+						<RelatedVisitView
+							visit={visit}
+							key={visit.id}
+							handleVisitSelection={handleVisitSelection}
+						/>
+					))}
+				</div>
+			</>}	
 		</>
 	)
 }
