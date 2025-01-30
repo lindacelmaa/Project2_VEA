@@ -21,6 +21,7 @@ class Visit extends Model
 		'end_date',
 		'description',
 		'cost',
+		'transport_id'
 	];
 
     public function leader(): BelongsTo
