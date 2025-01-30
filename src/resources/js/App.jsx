@@ -88,26 +88,36 @@ const relatedVisits = [
   }
 ];
 
+import { useState } from "react";
+
 export default function App() {
 	
+	const [selectedVisitID, setSelectedVisitID] = useState(null);
+
+	
 	function handleVisitSelection(visitID) {
-		alert("Selected ID " + visitID);
+		setSelectedVisitID(visitID);
+
 	}
 	
 	function handleGoingBack() {
-		alert("Going to Homepage");
+		setSelectedVisitID(null);
+
 	}
-	const selectedVisitID = 3;
 	
 	return (
 		<>
 			<Header />
 			<main className="mb-8 px-2 md:container md:mx-auto">
-				<VisitPage
+				{
+				selectedVisitID
+				? <VisitPage
 					selectedVisitID={selectedVisitID}
 					handleVisitSelection={handleVisitSelection}
 					handleGoingBack={handleGoingBack}
 				/>
+				: <Homepage handleVisitSelection={handleVisitSelection} />
+				}
 			</main>
 			<Footer />
 		</>
@@ -172,11 +182,6 @@ function TopVisitView({ visit, index, handleVisitSelection }) {
 }
 
 function SeeMoreBtn({ visitID, handleVisitSelection }) {
-	// const selectedVisit = topVisits.find(visit => visit.id === selectedVisitID); // Fetch the selected visit object
-  
-	//if (!selectedVisit) {
-	//	return <p>Visit not found!</p>;
-	//}
 	
 	return (
 		<button
