@@ -88,7 +88,9 @@ const relatedVisits = [
   }
 ];
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import '../css/loader.css';
+
 
 export default function App() {
 	
@@ -145,16 +147,39 @@ function Footer() {
 }
 
 function Homepage({ handleVisitSelection }) {
+	const [topVisits, setTopVisits] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	
+	useEffect(function () {
+		async function fetchTopVisits() {
+			try {
+				setIsLoading(true);
+				const response = await fetch('http://localhost/data/get-top-visits');
+				const data = await response.json();
+				console.log('top visits fetched', data);
+				setTopVisits(data);
+			} catch (error) {
+				//
+			}  finally {
+				setIsLoading(false);
+			}
+		}
+		fetchTopVisits();
+	}, []);
+
 	return (
 		<>
-			{topVisits.map((visit, index) => (
-				<TopVisitView
-					visit={visit}
-					key={visit.id}
-					index={index}
-					handleVisitSelection={handleVisitSelection}
-				/>
-			))}
+			{isLoading && <Loader />}
+			{!isLoading && (
+				topVisits.map((visit, index) => (
+					<TopVisitView
+						visit={visit}
+						key={visit.id}
+						index={index}
+						handleVisitSelection={handleVisitSelection}
+					/>
+				))
+			)}
 		</>
 	)
 }
@@ -295,4 +320,18 @@ function RelatedVisitView({ visit, handleVisitSelection }) {
 	)
 }
 
+function Loader() {
+	return (
+		<div className="my-12 px-2 md:container md:mx-auto text-center clear-both">
+		<div className="loader"></div> {/* This uses the CSS animation */}
+		</div>
+	)
+}
+function ErrorMessage({ msg }) {
+	return (
+		<div className="md:container md:mx-auto bg-red-300 my-8 p-2">
+			<p className="text-black">{ msg }</p>
+		</div>
+	)
+}
 
