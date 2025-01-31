@@ -49,7 +49,7 @@ function Header() {
 }
 function Footer() {
 	return (
-		<footer className="bg-[#3F0000] text-white py-5 px-4 mt-auto">
+		<footer className="bg-[#3F0000] text-white py-5 px-4 mt-auto w-full fixed bottom-0">
 			<div className="container text-center">
 				&#127757; L. Celma, VeA, 2025
 			</div>
