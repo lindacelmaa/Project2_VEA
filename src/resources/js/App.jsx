@@ -290,15 +290,17 @@ function RelatedVisitView({ visit, handleVisitSelection }) {
 			<img
 				src={ visit.image }
 				alt={ visit.event_name }
-				className="md:h-[400px] md:mx-auto max-md:w-2/4 max-md:mx-auto" />
+				className="md:h-[200px] md:mx-auto max-md:w-2/4 max-md:mx-auto" />
 			<div className="p-4">
-				<h3 className="text-xl leading-7 font-light text-neutral-900 mb-4">
+				<h3 className="text-xl leading-7 font-light text-neutral-900 mb-4 text-center">
 					{ visit.event_name }
 				</h3>
-				<SeeMoreBtn
-					visitID={visit.id}
-					handleVisitSelection={handleVisitSelection}
-				/>
+				<div className="flex justify-center">
+					<SeeMoreBtn
+						visitID={visit.id}
+						handleVisitSelection={handleVisitSelection}
+					/>
+				</div>
 			</div>
 		</div>
 	)
