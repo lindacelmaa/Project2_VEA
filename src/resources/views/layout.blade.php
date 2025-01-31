@@ -60,7 +60,7 @@
 				</div>
 			</div>
 		</main>
-		<footer class="text-bg-dark mt-3" style="position: absolute; bottom: 0; width: 100%;">
+		<footer class="text-bg-dark mt-3" style="width: 100%;">
 			<div class="container">
 				<div class="row py-5">
 					<div class="col">

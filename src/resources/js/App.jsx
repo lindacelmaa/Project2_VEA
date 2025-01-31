@@ -130,7 +130,7 @@ function SeeMoreBtn({ visitID, handleVisitSelection }) {
 	
 	return (
 		<button
-			className="inline-block rounded-full py-2 px-4 bg-sky-500 hover:bg-sky-400 text-sky-50 cursor-pointer"
+			className="inline-block rounded-full py-2 px-4 bg-sky-500 hover:bg-sky-400 text-sky-50 cursor-pointer mb-4"
 				onClick={() => handleVisitSelection(visitID)}
 		>See more</button>
 	)
